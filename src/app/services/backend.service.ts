@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {map, tap} from 'rxjs/operators';
 import {Author, MockData} from "../models/models";
 import {Observable, of} from "rxjs";
+import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,18 @@ export class BackendService {
     this.author.splice(index, 0, author)
     return of(this.author)
   }
+
+  searchFullText(searchTerm: string): Observable<Author[]> {
+if (!searchTerm)
+  return of(this.author)
+      let e = this.author.filter((x: Author) => {
+       return Object.keys(x).some((y: any) => {
+        return  String(x?.[y]).toLowerCase().includes(searchTerm.toLowerCase())
+        })
+      })
+
+    return of(e)
+  }
+
 
 }

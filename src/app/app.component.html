@@ -39,6 +39,14 @@
         <th scope="col">name</th>
         <th scope="col">totalPosts</th>
         <th scope="col">totalComments</th>
+        <th scope="col"><input type="text" (input)="searchFullText(searchText)" [(ngModel)]="searchText" placeholder="search" (change)="searchFullText(searchText)"></th>
+      <th>
+        <select [(ngModel)]="sortByType" class="p-1">
+          <option  *ngFor="let type of authorType" [value]="type" (click)="sortByType()">{{ type}}</option>
+<!--          <option  [value]="AuthorSortType.totalPosts">{{ AuthorSortType.totalPosts}}</option>-->
+<!--          <option  [value]="AuthorSortType.totalComments">{{ AuthorSortType.totalComments}}</option>-->
+        </select>
+      </th>
       </tr>
       </thead>
       <tbody>

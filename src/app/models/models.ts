@@ -22,6 +22,7 @@ export enum ArticleType {
 
 
 export class Author {
+  [key: string]: any
   id?: number;
 
   name?: string;
