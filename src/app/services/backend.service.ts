@@ -21,6 +21,14 @@ export class BackendService {
     return this.http.get<MockData>('../../assets/mock-data.json').pipe(map((x: MockData) => x.author))
   }
 
+  getArticle(): Observable<Author[]> {
+    return this.http.get<MockData>('../../assets/mock-data.json').pipe(map((x: MockData) => x.article))
+  }
+
+  getComments(): Observable<Author[]> {
+    return this.http.get<MockData>('../../assets/mock-data.json').pipe(map((x: MockData) => x.comment))
+  }
+
   addNewAuthor(author: Author, index: number): Observable<Author[]> {
     this.author.splice(index, 0, author)
     return of(this.author)
@@ -29,13 +37,13 @@ export class BackendService {
   searchFullText(searchTerm: string): Observable<Author[]> {
 if (!searchTerm)
   return of(this.author)
-      let e = this.author.filter((x: Author) => {
-       return Object.keys(x).some((y: any) => {
-        return  String(x?.[y]).toLowerCase().includes(searchTerm.toLowerCase())
+      let filteredAuthors  = this.author.filter((author: Author) => {
+       return Object.keys(author).some((prop: any) => {
+        return  (String(author?.[prop]).toLowerCase().includes(searchTerm.toLowerCase().trim()))
         })
       })
 
-    return of(e)
+    return of(filteredAuthors )
   }
 
 

@@ -5,6 +5,7 @@ import {AuthorComponent} from "./author/author.component";
 
 
 const routes: Routes = [
+  { path: '', component: AuthorsComponent },
   { path: 'authors', component: AuthorsComponent },
   { path: 'author/:id', component: AuthorComponent }
 ];

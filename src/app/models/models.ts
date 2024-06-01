@@ -39,9 +39,9 @@ export class Author {
 }
 
 export enum AuthorSortType {
-  Name = 'name',
-  totalPosts = 'total-posts',
-  totalComments = 'total-comments',
+  name = 'name',
+  totalPosts = 'totalPosts',
+  totalComments = 'totalComments',
 }
 export class Comment {
   id?: number;

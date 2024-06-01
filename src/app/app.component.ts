@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  data: Author[] = []
+  authors: Author[] = []
   title = 'act';
   authorCount: number = 10
   showNewAuthorForm: boolean = false
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   searchText: string = ''
 
   authorType = Object.values(AuthorSortType);
-  selectedAuthorType!: AuthorSortType;
+  authorSortType!: AuthorSortType;
 
   // readonly AuthorSortType: typeof AuthorSortType = AuthorSortType
   constructor(private backService: BackendService,
@@ -29,7 +29,10 @@ export class AppComponent implements OnInit {
 
     this.backService.getAllAuthor().subscribe(
       (res: Author[]) => {
-        this.data = res
+        this.authors = res
+        this.authorSortType = AuthorSortType.name
+        console.log(this.authorSortType)
+        this.onAuthorTypeChange()
       })
 
   }
@@ -53,16 +56,14 @@ export class AppComponent implements OnInit {
     if (this.newAuthorForm.valid) {
       const newAuthor: Author = this.newAuthorForm.value;
       this.backService.addNewAuthor(newAuthor, this.authorCount).subscribe((res: Author[]) => {
-        this.data = res
+        this.authors = res
       })
       this.authorCount = this.authorCount + 1
       this.showNewAuthorForm = false
     }
   }
 
-  sortByType() {
-    // this
-  }
+
 
   // onKeyupSearch(event: KeyboardEvent) {
   //   const searchTerm = (event.target as HTMLInputElement).value;
@@ -70,13 +71,28 @@ export class AppComponent implements OnInit {
   // }
 
   searchFullText(searchTerm: string) {
- if (!searchTerm)
-   return
+    if (!searchTerm)
+      return
     else {
-   this.backService.searchFullText(searchTerm).subscribe((res: Author[]) => {
-     this.data = res
-   })
- }
+      this.backService.searchFullText(searchTerm).subscribe((res: Author[]) => {
+        this.authors = res
+      })
+    }
   }
 
+  onAuthorTypeChange(): void {
+    this.authors.sort((a, b) => {
+      const valueA = a[this.authorSortType];
+      const valueB = b[this.authorSortType];
+
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return valueA - valueB;
+      }
+      else if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return valueA.localeCompare(valueB);
+      }
+      return 0;
+    });
+  }
 }
+

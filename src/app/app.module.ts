@@ -9,12 +9,18 @@ import { HttpClientModule } from '@angular/common/http';
 import {BackendService} from "./services/backend.service";
 import {CommonModule} from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {ArticlesComponent} from "./articles/articles.component";
+import {CommentsComponent} from "./comments/comments.component";
+import {BaseComponent} from "./base.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorComponent,
-    AuthorsComponent
+    AuthorsComponent,
+    ArticlesComponent,
+    CommentsComponent,
+    BaseComponent
   ],
   imports: [
     BrowserModule,
